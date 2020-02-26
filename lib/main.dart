@@ -21,7 +21,7 @@ class MainVidget extends StatefulWidget {
 
 class MainVidgetState extends State<MainVidget> {
   Color mainColor = Colors.white;
-  String lastColor;
+  Color lastColor;
   int counter = 0;
 
   @override
@@ -34,29 +34,29 @@ class MainVidgetState extends State<MainVidget> {
             ),
             body: Stack(
               children: <Widget>[
+                Center(
+                    child: Text(
+                        counter == 0 ? 'Hey there':'You have pressed $counter times and last color ${getColorNameFromColor(lastColor).getName} ',
+                        style: TextStyle(fontSize: 32.0, color: lastColor),
+                    )
+                ),
                 Listener(
                   behavior: HitTestBehavior.translucent,
                   onPointerDown: (e) {
                     setState(() {
-                      lastColor = getColorNameFromColor(mainColor).getName;
+                      lastColor = mainColor;
                       mainColor = Color.fromRGBO(Random().nextInt(254) + 1,
                           Random().nextInt(254) + 1, Random().nextInt(254) + 1, 1);
                       ++counter;
                     });
                   },
                 ),
-                Center(
-                    child: Text(
-                        counter == 0 ? 'Hey there':'You have pressed $counter times and last color $lastColor ',
-                        style: TextStyle(fontSize: 32.0)
-                    )
-                )
               ],
             ),
             floatingActionButton: FloatingActionButton.extended(
               onPressed:() => changeIndex(),
               label: Text('Clean'),
-              icon: Icon(Icons.thumb_up),
+              icon: Icon(Icons.clear),
               backgroundColor: Colors.pink,
             ),
         )
@@ -67,7 +67,7 @@ class MainVidgetState extends State<MainVidget> {
     setState(() {
       counter = 0;
       mainColor = Colors.white;
-      lastColor = "";
+      lastColor = Colors.black;
     });
   }
 }
